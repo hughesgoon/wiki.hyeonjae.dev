@@ -22,6 +22,17 @@ module.exports = {
   ],
   themeConfig: {
     image: 'img/hughes-wiki.png',
+    metadata: [
+      {
+        name: 'lang',
+        content: 'ko'
+      },
+    ],
+    algolia: {
+      apiKey: '9365aca0b4c9abdaa04efd6f17b8a171',
+      indexName: 'prod_wiki',
+      contextualSearch: true,
+    },
     navbar: {
       hideOnScroll: true,
       logo: {
@@ -34,6 +45,21 @@ module.exports = {
       ],
     },
     footer: {
+      links: [
+        {
+          title: 'WIKI',
+          items: [
+            {
+              label: 'Github(위키)',
+              href: 'https://github.com/hughesgoon/wiki.hyeonjae.dev',
+            },
+            {
+              label: 'Docusaurus',
+              href: 'https://docusaurus.io',
+            },
+          ],
+        },
+      ],
       logo: {
         alt: 'Hughes\'s page Logo',
         src: 'img/hughes_logo.svg',
@@ -52,7 +78,7 @@ module.exports = {
       },
     ],
     colorMode: {
-      defaultMode: 'dark',
+      defaultMode: 'light',
       switchConfig: {
         darkIcon: 'light_mode',
 
