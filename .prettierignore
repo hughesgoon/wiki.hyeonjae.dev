@@ -1,9 +1,12 @@
-# Dependencies
-/node_modules
+src/theme/DocItem
+src/theme/DocPage
+legacy-stencil-components
 
-# Production
-/build
+docs/
 
-# Generated files
+static/code/stackblitz
+
 .docusaurus
-.cache-loader
+.github
+build
+node_modules

@@ -1,112 +1,179 @@
-/** @type {import('@docusaurus/types').DocusaurusConfig} */
+const path = require('path');
+const prismic = require('@prismicio/client');
+const fetch = require('node-fetch');
+
+const math = require('remark-math');
+const katex = require('rehype-katex');
+
+const BASE_URL = '';
 
 module.exports = {
-  title: 'Hughes\'s wiki',
-  tagline: '이런저런 지식을 공유합니다',
+  title: '휴즈 지식저장소',
+  tagline: '휴즈의 지식저장소. 컴퓨터 공학, 통계 등 공부한 조각들을 작게 정리해봅니다.',
   url: 'https://wiki.hyeonjae.dev',
-  baseUrl: '/',
-  onBrokenLinks: 'log',
-  onBrokenMarkdownLinks: 'log',
-  favicon: 'img/favicon.ico',
-  trailingSlash: false,
-  organizationName: 'hughesgoon',
+  baseUrl: `${BASE_URL}/`,
+  i18n: {
+    defaultLocale: 'ko',
+    locales: ['ko'],
+  },
+  onBrokenLinks: 'warn',
+  onBrokenMarkdownLinks: 'warn',
+  favicon: '/meta/favicon.svg',
   projectName: 'wiki.hyeonjae.dev',
-  stylesheets: [
-    'https://fonts.googleapis.com/css?family=Material+Icons',
-    {
-      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css',
-      integrity:
-        'sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc',
-      crossorigin: 'anonymous',
-    },
-  ],
-  themeConfig: {
-    image: 'img/hughes-wiki.png',
-    metadata: [
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      /** @type {import('@docusaurus/preset-classic').Options} */
       {
-        name: 'lang',
-        content: 'ko'
-      },
-    ],
-    algolia: {
-      apiKey: '9365aca0b4c9abdaa04efd6f17b8a171',
-      indexName: 'prod_wiki',
-      contextualSearch: true,
-    },
-    navbar: {
-      hideOnScroll: true,
-      logo: {
-        alt: 'Hughes Wiki Logo',
-        src: 'img/logo.svg',
-        srcDark: 'img/logo_dark.svg',
-      },
-      items: [
-        { href: 'https://hyeonjae.dev', label: 'Blog', position: 'right' },
-      ],
-    },
-    footer: {
-      links: [
-        {
-          title: 'WIKI',
-          items: [
-            {
-              label: 'Github(위키)',
-              href: 'https://github.com/hughesgoon/wiki.hyeonjae.dev',
-            },
-            {
-              label: 'Docusaurus',
-              href: 'https://docusaurus.io',
-            },
+        // Will be passed to @docusaurus/plugin-content-docs (false to disable).
+        docs: {
+          routeBasePath: '/',
+          sidebarPath: require.resolve('./sidebars.js'),
+          exclude: ['README.md'],
+          remarkPlugins: [math],
+          rehypePlugins: [katex],
+        },
+        // Will be passed to @docusaurus/plugin-google-tag-manager.
+        googleTagManager: {
+          containerId: 'GTM-P6N6HDRM',
+        },
+        // Will be passed to @docusaurus/theme-classic.
+        theme: {
+          customCss: [
+            require.resolve('./node_modules/modern-normalize/modern-normalize.css'),
+            require.resolve('./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css'),
+            require.resolve('./src/styles/custom.scss'),
           ],
         },
-      ],
-      logo: {
-        alt: 'Hughes\'s page Logo',
-        src: 'img/hughes_logo.svg',
-        href: 'https://hyeonjae.dev',
       },
-      copyright: `© ${new Date().getFullYear()} Hughes's Wiki. Built with Docusaurus.`,
-    },
-    socials: [
+    ],
+  ],
+  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+  themeConfig: {
+    metadata: [
       {
-        url: 'https://www.github.com/hughesgoon/',
-        backgroundColor: '#2C3850',
+        name: 'og:image',
+        content: 'https://wiki.hyeonjae.dev/meta/open-graph.png',
       },
       {
-        url: 'https://www.facebook.com/guswo0527/',
-        backgroundColor: '#BAC6DE',
+        name: 'twitter:image',
+        content: 'https://wiki.hyeonjae.dev/meta/open-graph.png',
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:domain',
+        content: 'wiki.hyeonjae.dev',
+      },
+      {
+        name: 'og:type',
+        content: 'website',
+      },
+      {
+        name: 'og:site_name',
+        content: '휴즈 지식저장소',
       },
     ],
     colorMode: {
       defaultMode: 'light',
-      switchConfig: {
-        darkIcon: 'light_mode',
-
-        darkIconStyle: {
-          fontFamily: 'Material Icons',
+    },
+    navbar: {
+      hideOnScroll: false,
+      logo: {
+        alt: 'Site Logo',
+        src: `/logos/hughes-wiki-dark.svg`,
+        srcDark: `/logos/hughes-wiki-light.svg`,
+        href: '/',
+        target: '_self',
+        width: 171,
+        height: 27,
+      },
+      items: [
+        {
+          type: 'doc',
+          docId: 'cse',
+          label: '컴퓨터공학',
+          position: 'left',
         },
-
-        lightIcon: 'dark_mode',
-
-        lightIconStyle: {
-          fontFamily: 'Material Icons',
+        {
+          type: 'doc',
+          docId: 'math-stats',
+          label: '수학 및 통계',
+          position: 'left',
         },
+        {
+          type: 'search',
+          position: 'right',
+        },
+        {
+          type: 'html',
+          position: 'right',
+          value: '<div class="separator" aria-hidden></div>',
+        },
+        {
+          href: 'https://www.instagram.com/hyeon.527/',
+          position: 'right',
+          className: 'icon-link icon-link-mask icon-link-instagram',
+          'aria-label': 'Instagram',
+          target: '_blank',
+        },
+        {
+          href: 'https://www.linkedin.com/in/hughesgoon/',
+          position: 'right',
+          className: 'icon-link icon-link-mask icon-link-linkedin',
+          'aria-label': 'LinkedIn',
+          target: '_blank',
+        },
+        {
+          href: 'https://github.com/hughesgoon',
+          position: 'right',
+          className: 'icon-link icon-link-mask icon-link-github',
+          'aria-label': 'GitHub profile',
+          target: '_blank',
+        },
+      ],
+    },
+    prism: {
+      theme: { plain: {}, styles: [] },
+      // https://github.com/FormidableLabs/prism-react-renderer/blob/5a1c93592c6475fb230bfcb8a9666b72b331638b/packages/generate-prism-languages/index.ts#L9-L24
+      additionalLanguages: ['shell-session', 'http'],
+    },
+    algolia: {
+      appId: 'ME97UCIO92',
+      apiKey: '426a8b4837d1478f6d746f1dbf976a7a',
+      indexName: 'wiki.hyeonjae.dev',
+      contextualSearch: true,
+    },
+    docs: {
+      sidebar: {
+        autoCollapseCategories: true,
       },
     },
   },
-  presets: [
+  plugins: [
+    'docusaurus-plugin-sass',
     [
-      '@docusaurus/preset-classic',
+      'docusaurus-plugin-module-alias',
       {
-        docs: false,
-        theme: {
-          customCss: require.resolve('./src/css/custom.css'),
-        },
-        sitemap: {
-          changefreq: 'daily',
-          priority: 0.5,
+        alias: {
+          'styled-components': path.resolve(__dirname, './node_modules/styled-components'),
+          react: path.resolve(__dirname, './node_modules/react'),
+          'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+          '@components': path.resolve(__dirname, './src/components'),
         },
       },
     ],
   ],
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
+      integrity: 'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+      crossorigin: 'anonymous',
+    },
+  ],
+  customFields: {},
+  themes: [],
 };
