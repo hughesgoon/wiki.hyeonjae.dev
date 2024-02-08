@@ -1,3 +1,9 @@
+---
+title: 메인
+slug: /
+hide_table_of_contents: true
+---
+
 import {Redirect} from '@docusaurus/router';
 
 export default function Home() {
