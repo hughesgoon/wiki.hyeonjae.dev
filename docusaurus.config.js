@@ -31,7 +31,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           exclude: ['README.md'],
           remarkPlugins: [math],
-          rehypePlugins: [katex],
+          rehypePlugins: [[katex, { strict: false }]],
         },
         // Will be passed to @docusaurus/plugin-google-tag-manager.
         googleTagManager: {
