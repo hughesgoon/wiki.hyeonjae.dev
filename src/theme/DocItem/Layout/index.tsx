@@ -22,6 +22,7 @@ import styles from '@docusaurus/theme-classic/lib/theme/DocItem/Layout/styles.mo
 
 // CUSTOM CODE
 import DocDemo from '@components/global/DocDemo';
+import GiscusComment from '@components/global/GiscusComment';
 // CUSTOM CODE END
 
 /**
@@ -62,10 +63,22 @@ function useDocDemo() {
 }
 // CUSTOM CODE END
 
+// CUSTOM CODE
+function useDocComment() {
+  const {frontMatter} = useDoc();
+  const hideComment = frontMatter.hide_comment;
+
+  return {
+    hideComment
+  };
+}
+// CUSTOM CODE END
+
 export default function DocItemLayout({children, ...props}: Props): JSX.Element {
   const docTOC = useDocTOC();
   // CUSTOM CODE
   const {demoUrl, demoSourceUrl} = useDocDemo();
+  const {hideComment} = useDocComment();
   // CUSTOM CODE END
   return (
     <div className="row">
@@ -80,6 +93,9 @@ export default function DocItemLayout({children, ...props}: Props): JSX.Element 
           </article>
           <DocItemPaginator />
         </div>
+        {/* ------- CUSTOM CODE -------- */}
+        {!hideComment && <GiscusComment />}
+        {/* ------- CUSTOM CODE END -------- */}
       </div>
       {/* ------- CUSTOM CODE -------- */}
       {/* Ideally this would only render if there is a demoUrl and the it's a mobile device. However,the `windowSize` does not provide a tablet so we have to hide it through CSS. */}

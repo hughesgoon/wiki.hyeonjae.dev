@@ -151,6 +151,13 @@ module.exports = {
         autoCollapseCategories: true,
       },
     },
+    giscus: {
+      repo: 'hughesgoon/wiki.hyeonjae.dev',
+      repoId: 'R_kgDOGolglQ',
+      category: 'comment',
+      categoryId: 'DIC_kwDOGolglc4CkzO0',
+      mapping: 'pathname',
+    },
   },
   plugins: [
     'docusaurus-plugin-sass',
