@@ -20,6 +20,7 @@
     max-width: var(--doc-item-container-width);
     flex-grow: 1;
     min-width: 0;
+    width: 100%;
   }
 
   [class*='docMainContainer_'] {
@@ -44,6 +45,7 @@
       > .row {
         > .col {
           display: flex;
+          flex-wrap: wrap;
           justify-content: center;
 
           min-width: 0;
